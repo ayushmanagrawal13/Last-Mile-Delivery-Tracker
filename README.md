@@ -1,6 +1,6 @@
 # Last-Mile Delivery Tracker
 
-**🚀 Live (Vercel — after deploy):** Frontend `https://lastmile-frontend.vercel.app` | Backend `https://lastmile-backend.vercel.app` | GitHub `https://github.com/Dm9582/Last-Mile-Delivery-Tracker`
+**🚀 Live (Vercel — after deploy):** Frontend: https://vercel.com/ayushman9/last-mile-delivery-tracker
 
 Production-grade, role-based platform (Customer / Delivery Agent / Admin) with admin-configurable zones & rate cards, isolated rate engine (zero hardcode), load-balanced auto-assignment, immutable tracking timeline, and queued email retry — including failed→reschedule flow.
 
