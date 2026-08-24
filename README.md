@@ -1,6 +1,15 @@
 # Last-Mile Delivery Tracker
 
-**🚀 Live (Vercel):** Frontend `https://frontend-psi-olive-66.vercel.app` (venator1) • Backend `https://backend-teoe4ikvo-venator1.vercel.app` (alias `https://backend-ochre-kappa-80.vercel.app`) • Ayushman9 `https://last-mile-delivery-tracker-fw57-930zi9l1m-ayushman9.vercel.app` | GitHub `https://github.com/ayushmanagrawal13/Last-Mile-Delivery-Tracker`
+## 🚀 LIVE DEPLOYMENT — CLICK TO OPEN
+
+| Service | URL (Click to Open) | Status |
+|---|---|---|
+| **Frontend — Customer/Agent/Admin Dashboards** | [**https://frontend-psi-olive-66.vercel.app**](https://frontend-psi-olive-66.vercel.app) | ● Live (Vercel) |
+| **Backend API** | [**https://backend-ochre-kappa-80.vercel.app**](https://backend-ochre-kappa-80.vercel.app) — Health: [**/health**](https://backend-ochre-kappa-80.vercel.app/health) · API: [**/api/v1/health**](https://backend-ochre-kappa-80.vercel.app/api/v1/health) | ● Live |
+| **Ayushman9 Vercel** | [**https://last-mile-delivery-tracker-fw57-930zi9l1m-ayushman9.vercel.app**](https://last-mile-delivery-tracker-fw57-930zi9l1m-ayushman9.vercel.app) | ● Live |
+| **GitHub Repo** | [**https://github.com/ayushmanagrawal13/Last-Mile-Delivery-Tracker**](https://github.com/ayushmanagrawal13/Last-Mile-Delivery-Tracker) | ● Public |
+
+> **Demo Accounts:** `admin@delivery.local / admin123` · `customer@delivery.local / customer123` · `agent1@delivery.local / agent123` (North) · `agent2@delivery.local / agent123` (South)
 Production-grade, role-based platform (Customer / Delivery Agent / Admin) with admin-configurable zones & rate cards, isolated rate engine (zero hardcode), load-balanced auto-assignment, immutable tracking timeline, and queued email retry — including failed→reschedule flow.
 
 ## Features
