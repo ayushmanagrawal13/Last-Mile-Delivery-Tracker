@@ -1,0 +1,173 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+enum Role {
+  CUSTOMER
+  DELIVERY_AGENT
+  ADMIN
+}
+enum OrderType {
+  B2B
+  B2C
+}
+enum PaymentType {
+  PREPAID
+  COD
+}
+enum OrderStatus {
+  CREATED
+  CONFIRMED
+  ASSIGNED
+  PICKED_UP
+  IN_TRANSIT
+  OUT_FOR_DELIVERY
+  DELIVERED
+  FAILED
+  RESCHEDULED
+}
+enum ZoneRel {
+  INTRA
+  INTER
+}
+enum AgentStatus {
+  AVAILABLE
+  UNAVAILABLE
+  ON_DELIVERY
+}
+enum SurchargeType {
+  FLAT
+  PERCENT
+}
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+}
+enum Channel {
+  EMAIL
+  SMS
+}
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role
+  createdAt DateTime @default(now())
+  agent     Agent?
+  orders    Order[]  @relation("CustomerOrders")
+  tracking  TrackingEvent[] @relation("ActorEvents")
+  @@map("users")
+}
+model Zone {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  createdAt DateTime   @default(now())
+  areas     ZoneArea[]
+  agents    Agent[]
+  @@map("zones")
+}
+model ZoneArea {
+  id     String @id @default(cuid())
+  zoneId String
+  zone   Zone   @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+  area   String @unique // pincode or area name
+  createdAt DateTime @default(now())
+  @@index([zoneId])
+  @@map("zone_areas")
+}
+model RateCard {
+  id        String    @id @default(cuid())
+  orderType OrderType
+  zoneRel   ZoneRel
+  rate      Float
+  unit      String    @default("per_kg")
+  createdAt DateTime  @default(now())
+  @@unique([orderType, zoneRel])
+  @@map("rate_cards")
+}
+model CodConfig {
+  id            String        @id @default(cuid())
+  orderType     OrderType     @unique
+  surchargeType SurchargeType
+  value         Float
+  createdAt     DateTime      @default(now())
+  @@map("cod_configs")
+}
+model Agent {
+  id               String      @id @default(cuid())
+  userId           String      @unique
+  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status           AgentStatus @default(AVAILABLE)
+  currentZoneId    String?
+  currentZone      Zone?       @relation(fields: [currentZoneId], references: [id], onDelete: SetNull)
+  activeOrderCount Int         @default(0)
+  createdAt        DateTime    @default(now())
+  orders           Order[]
+  @@map("agents")
+}
+model Order {
+  id               String      @id @default(cuid())
+  customerId       String
+  customer         User        @relation("CustomerOrders", fields: [customerId], references: [id], onDelete: Cascade)
+  pickupAddress    String
+  dropAddress      String
+  pickupZoneId     String?
+  dropZoneId       String?
+  l                Float
+  b                Float
+  h                Float
+  actualWeight     Float
+  volumetricWeight Float
+  billableWeight   Float
+  orderType        OrderType
+  paymentType      PaymentType
+  chargeBreakdown  Json
+  totalCharge      Float
+  currentStatus    OrderStatus @default(CREATED)
+  assignedAgentId  String?
+  assignedAgent    Agent?      @relation(fields: [assignedAgentId], references: [id], onDelete: SetNull)
+  rescheduleDate   DateTime?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  tracking         TrackingEvent[]
+  notifications    NotificationLog[]
+  @@index([pickupZoneId])
+  @@index([assignedAgentId, currentStatus])
+  @@map("orders")
+}
+// Need relation for pickup/drop zone without name conflict, use separate relation names is complex, simplify by not using relation for pickup/drop, just store zoneId string without FK? But schema wants FK. We'll keep without relation for now via explicit.
+// For Prisma need to define relation fields with names
+model TrackingEvent {
+  id        String      @id @default(cuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  fromStatus OrderStatus
+  toStatus   OrderStatus
+  actorId   String?
+  actor     User?       @relation("ActorEvents", fields: [actorId], references: [id], onDelete: SetNull)
+  actorRole String
+  notes     String? @db.Text
+  createdAt DateTime    @default(now())
+  @@index([orderId])
+  @@map("tracking_events")
+}
+model NotificationLog {
+  id             String             @id @default(cuid())
+  type           String
+  recipient      String
+  channel        Channel            @default(EMAIL)
+  status         NotificationStatus @default(PENDING)
+  retryCount     Int                @default(0)
+  relatedOrderId String?
+  relatedOrder   Order?             @relation(fields: [relatedOrderId], references: [id], onDelete: SetNull)
+  payload        Json?
+  error          String? @db.Text
+  createdAt      DateTime           @default(now())
+  @@index([status])
+  @@map("notification_logs")
+}
