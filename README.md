@@ -5,8 +5,6 @@
 | Service | URL (Click to Open) | Status |
 |---|---|---|
 | **Frontend — Customer/Agent/Admin Dashboards** | [**https://frontend-psi-olive-66.vercel.app**](https://frontend-psi-olive-66.vercel.app) | ● Live (Vercel) |
-| **Backend API** | [**https://backend-ochre-kappa-80.vercel.app**](https://backend-ochre-kappa-80.vercel.app) — Health: [**/health**](https://backend-ochre-kappa-80.vercel.app/health) · API: [**/api/v1/health**](https://backend-ochre-kappa-80.vercel.app/api/v1/health) | ● Live |
-| **Ayushman9 Vercel** | [**https://last-mile-delivery-tracker-fw57-930zi9l1m-ayushman9.vercel.app**](https://last-mile-delivery-tracker-fw57-930zi9l1m-ayushman9.vercel.app) | ● Live |
 | **GitHub Repo** | [**https://github.com/ayushmanagrawal13/Last-Mile-Delivery-Tracker**](https://github.com/ayushmanagrawal13/Last-Mile-Delivery-Tracker) | ● Public |
 
 > **Demo Accounts:** `admin@delivery.local / admin123` · `customer@delivery.local / customer123` · `agent1@delivery.local / agent123` (North) · `agent2@delivery.local / agent123` (South)
